@@ -10,35 +10,35 @@ declare GETID=''
 
 function main() {
     
-	parsed_args=$(getopt -o s:g:djh -l search:,get:,download,json,help -n 'haxmaps' -- "$@")
-	getopt_exit_code=$?
+    parsed_args=$(getopt -o s:g:djh -l search:,get:,download,json,help -n 'haxmaps' -- "$@")
+    getopt_exit_code=$?
 
-	if [ $getopt_exit_code -ne 0  ] ; then
-    	exit 1
-	fi
+    if [ $getopt_exit_code -ne 0  ] ; then
+        exit 1
+    fi
 
-	eval set -- "$parsed_args" 
+    eval set -- "$parsed_args" 
 
-	while :; do
-    	case "$1" in
-        	-h | --help ) show_help; exit 1 ;;
+    while :; do
+        case "$1" in
+            -h | --help ) show_help; exit 1 ;;
             -s | --search ) OPT_SEARCH=true; QUERY="$2"; shift 2 ;;
             -d | --download ) OPT_DOWNLOAD=true; shift ;;
             -j | --json ) OPT_JSON=true; shift ;;
             -g | --get ) OPT_GET=true; GETID="$2"; shift 2 ;;
             -- ) shift; break ;;
-        	* ) break ;;
-    	esac
-	done
+            * ) break ;;
+        esac
+    done
 
     if ! $OPT_SEARCH && ! $OPT_GET ; then
         show_help
         exit 1
     fi
 
-	if $OPT_GET ; then
-		download "$GETID" > "$GETID.hbs"
-	    exit 0
+    if $OPT_GET ; then
+        download "$GETID" > "$GETID.hbs"
+        exit 0
     fi
 
     if $OPT_SEARCH ; then
@@ -63,9 +63,9 @@ function err() {
 }
 
 function show_help() {
-	echo Usage: haxmaps [ -h ] [ [ -jd ] -s search_query ] [ -g haxmap_id ]
-	echo Options are:
-	echo '     -s | --search                  search in the map database and show the results in readable format'
+    echo Usage: haxmaps [ -h ] [ [ -jd ] -s search_query ] [ -g haxmap_id ]
+    echo Options are:
+    echo '     -s | --search                  search in the map database and show the results in readable format'
     echo '     -g | --get                     download a specific map by id'
     echo '     -d | --download                use with the search flag to download all the maps'
     echo '     -j | --json                    use with the search flag to set the output format to json'
