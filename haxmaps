@@ -54,7 +54,11 @@ function main() {
             printf "%s\t\t%s\n" "ID" "Map name"
             search "$QUERY" | jq --raw-output '.results[] | "\(.id)\t\t\(.name)" '
         fi
+        exit 0
     fi
+
+    show_help
+    exit 1
 }
 
 function err() {
