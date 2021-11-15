@@ -9,7 +9,6 @@ declare QUERY=''
 declare GETID=''
 
 function main() {
-    
     parsed_args=$(getopt -o s:g:djh -l search:,get:,download,json,help -n 'haxmaps' -- "$@")
     getopt_exit_code=$?
 
@@ -81,9 +80,8 @@ download() {
 }
 
 search() {
-
     results=$(curl -s --data-urlencode "queryString=$1" https://haxmaps.com/hb/rpc | grep -Po '<li.*?</li>')
-
+    
     if [ $(echo "$results" | wc -c) -lt 5 ] ; then
         echo '{ "results": [] }'
         exit 0
@@ -105,7 +103,6 @@ search() {
         done;
         echo -n "]}"
     )
-
 }
 
 main "$@"
