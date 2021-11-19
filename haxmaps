@@ -91,7 +91,7 @@ search() {
 
     echo "$results" | (
         index=0
-        echo -n "{ \"results\": ["
+        echo -n '{ "results": ['
         while read line; do
             map_id=$(echo "$line" | grep -Po 'https://haxmaps.com/map/\K[0-9]+')
             map_name=$(echo "$line" | grep -Po '</b>\K.*?(?=</li>)' | xargs)
@@ -101,7 +101,7 @@ search() {
             fi
             index=$((index+1))
         done;
-        echo -n "]}"
+        echo -n ']}'
     )
 }
 
