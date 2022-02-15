@@ -1,0 +1,7 @@
+haxmaps
+=======
+download and search haxball maps from https://www.haxmaps.com
+
+install
+=======
+$ sudo make install
