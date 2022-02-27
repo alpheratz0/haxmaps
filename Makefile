@@ -1,5 +1,8 @@
+PREFIX = /usr/local
+
 install:
-	@cp haxmaps /usr/local/bin
-	@chmod 755 /usr/local/bin/haxmaps
+	@mkdir -p ${DESTDIR}${PREFIX}/bin
+	@cp -f haxmaps ${DESTDIR}${PREFIX}/bin
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/haxmaps
 
 .PHONY: install
