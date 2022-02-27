@@ -1,14 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
-declare OPT_SEARCH=false
-declare OPT_GET=false
-declare OPT_DOWNLOAD=false
-declare OPT_JSON=false
+opt_search=false
+opt_get=false
+opt_download=false
+opt_json=false
+query=''
+getid=''
 
-declare QUERY=''
-declare GETID=''
-
-function main() {
+main() {
 	parsed_args=$(getopt -o s:g:djh -l search:,get:,download,json,help -n 'haxmaps' -- "$@")
 	getopt_exit_code=$?
 
@@ -21,37 +20,40 @@ function main() {
 	while :; do
 		case "$1" in
 			-h | --help ) show_help; exit 1 ;;
-			-s | --search ) OPT_SEARCH=true; QUERY="$2"; shift 2 ;;
-			-d | --download ) OPT_DOWNLOAD=true; shift ;;
-			-j | --json ) OPT_JSON=true; shift ;;
-			-g | --get ) OPT_GET=true; GETID="$2"; shift 2 ;;
+			-s | --search ) opt_search=true; query="$2"; shift 2 ;;
+			-d | --download ) opt_download=true; shift ;;
+			-j | --json ) opt_json=true; shift ;;
+			-g | --get ) opt_get=true; getid="$2"; shift 2 ;;
 			-- ) shift; break ;;
 			* ) break ;;
 		esac
 	done
 
-	if ! $OPT_SEARCH && ! $OPT_GET ; then
+	if ! $opt_search && ! $opt_get ; then
 		show_help
 		exit 1
 	fi
 
-	if $OPT_GET ; then
-		download "$GETID" > "$GETID.hbs"
+	if $opt_get ; then
+		[ "$getid" -eq "$getid" ] 2>/dev/null ||
+			die 'invalid id'
+
+		download "$getid" > "$getid.hbs"
 		exit 0
 	fi
 
-	if $OPT_SEARCH ; then
-		if $OPT_DOWNLOAD ; then
-			search "$QUERY" | jq --raw-output '.results[].id' | (
-				while read id; do
+	if $opt_search ; then
+		if $opt_download ; then
+			search "$query" | jq --raw-output '.results[].id' | (
+				while read -r id; do
 					download "$id" > "$id.hbs"
 				done
 			)
-		elif $OPT_JSON ; then
-			search "$QUERY"
+		elif $opt_json ; then
+			search "$query"
 		else
 			printf "%s\t\t%s\n" "ID" "Map name"
-			search "$QUERY" | jq --raw-output '.results[] | "\(.id)\t\t\(.name)" '
+			search "$query" | jq --raw-output '.results[] | "\(.id)\t\t\(.name)" '
 		fi
 		exit 0
 	fi
@@ -60,12 +62,12 @@ function main() {
 	exit 1
 }
 
-function err() {
+die() {
 	printf "haxmaps: %s\n" "$@" >&2
 	exit 1
 }
 
-function show_help() {
+show_help() {
 	echo Usage: haxmaps [ -h ] [ [ -jd ] -s search_query ] [ -g haxmap_id ]
 	echo Options are:
 	echo '     -s | --search                  search in the map database and show the results in readable format'
@@ -82,7 +84,7 @@ download() {
 search() {
 	results=$(curl -s --data-urlencode "queryString=$1" https://haxmaps.com/hb/rpc | grep -Po '<li.*?</li>')
 	
-	if [ $(echo "$results" | wc -c) -lt 5 ] ; then
+	if [ "${#results}" -lt 5 ] ; then
 		echo '{ "results": [] }'
 		exit 0
 	fi
@@ -91,17 +93,17 @@ search() {
 
 	echo "$results" | (
 		index=0
-		echo -n '{ "results": ['
-		while read line; do
+		printf "%s" '{ "results": ['
+		while read -r line; do
 			map_id=$(echo "$line" | grep -Po 'https://haxmaps.com/map/\K[0-9]+')
 			map_name=$(echo "$line" | grep -Po '</b>\K.*?(?=</li>)' | xargs)
-			echo -n "{ \"name\": \"$map_name\", \"id\": \"$map_id\" }"
+			printf "%s" "{ \"name\": \"$map_name\", \"id\": \"$map_id\" }"
 			if [ $index -ne $((length-1)) ] ; then
-				echo -n ','
+				printf "%s" ','
 			fi
 			index=$((index+1))
 		done;
-		echo -n ']}'
+		printf "%s" ']}'
 	)
 }
 
