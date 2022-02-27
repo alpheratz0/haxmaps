@@ -15,7 +15,7 @@ main() {
 		exit 1
 	fi
 
-	eval set -- "$parsed_args" 
+	eval set -- "$parsed_args"
 
 	while :; do
 		case "$1" in
@@ -83,7 +83,7 @@ download() {
 
 search() {
 	results=$(curl -s --data-urlencode "queryString=$1" https://haxmaps.com/hb/rpc | grep -Po '<li.*?</li>')
-	
+
 	if [ "${#results}" -lt 5 ] ; then
 		echo '{ "results": [] }'
 		exit 0
