@@ -1,0 +1,47 @@
+.TH HAXMAPS 1 "June 22, 2022"
+.SH NAME
+haxmaps \- download and search haxball maps from https://www.haxmaps.com.
+.SH SYNOPSIS
+\fBhaxmaps\fP [ -dhj ] [ -s QUERY ] [ -g ID ]
+.SH OPTIONS
+.TP
+\fB\-d\fR, \fB\-\-download\fR
+use with the search flag to download all the maps
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+show the help message and exit
+.TP
+\fB\-j\fR, \fB\-\-json\fR
+use with the search flag to set the output format to json
+.TP
+\fB\-s\fR, \fB\-\-search\fR
+search in the map database and show the results in readable format
+.TP
+\fB\-g\fR, \fB\-\-get\fR
+download a specific map by id
+.SH EXAMPLES
+.TP
+\fBsearch for futsal maps\fR
+haxmaps -s futsal
+.TP
+\fBdownload a map by id\fR
+haxmaps -g 938
+.SH EXIT STATUS
+.TP
+\fB0\fR
+the program terminated successfully
+.TP
+\fB1\fR
+an error occurred
+.SH AUTHOR
+Written by alpheratz0.
+.SH COPYRIGHT
+Copyright \(co 2022 <alpheratz99@protonmail.com>
+.br
+License GPLv2.0: GNU GPL version 2.0 <https://gnu.org/licenses/old-licenses/gpl-2.0.en.html>.
+.br
+This is free software: you are free to change and redistribute it.
+.br
+There is NO WARRANTY, to the extent permitted by law.
+.SH BUGS
+https://github.com/alpheratz0/haxmaps/issues

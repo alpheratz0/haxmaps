@@ -68,13 +68,13 @@ die() {
 }
 
 show_help() {
-	echo Usage: haxmaps [ -h ] [ [ -jd ] -s search_query ] [ -g haxmap_id ]
+	echo Usage: haxmaps [ -dhj ] [ -s QUERY ] [ -g ID ]
 	echo Options are:
+	echo '     -d | --download                use with the search flag to download all the maps'
+	echo '     -h | --help                    display this message and exit'
+	echo '     -j | --json                    use with the search flag to set the output format to json'
 	echo '     -s | --search                  search in the map database and show the results in readable format'
 	echo '     -g | --get                     download a specific map by id'
-	echo '     -d | --download                use with the search flag to download all the maps'
-	echo '     -j | --json                    use with the search flag to set the output format to json'
-	echo '     -h | --help                    display this message and exit'
 }
 
 download() {
