@@ -5,4 +5,7 @@ install:
 	@cp -f src/haxmaps ${DESTDIR}${PREFIX}/bin
 	@chmod 755 ${DESTDIR}${PREFIX}/bin/haxmaps
 
-.PHONY: install
+uninstall:
+	@rm -f ${DESTDIR}${PREFIX}/bin/haxmaps
+
+.PHONY: install uninstall
