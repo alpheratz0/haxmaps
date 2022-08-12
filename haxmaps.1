@@ -1,47 +1,40 @@
-.TH HAXMAPS 1 "June 22, 2022"
-.SH NAME
-haxmaps \- download and search haxball maps from https://www.haxmaps.com.
-.SH SYNOPSIS
-\fBhaxmaps\fP [ -dhj ] [ -s QUERY ] [ -g ID ]
-.SH OPTIONS
-.TP
-\fB\-d\fR, \fB\-\-download\fR
+.Dd August 12, 2022
+.Dt HAXMAPS 1
+.Sh NAME
+.Nm haxmaps
+.Nd download and search haxball maps from https://www.haxmaps.com
+.Sh SYNOPSIS
+.Nm
+.Op Fl dhj
+.Op Fl s Ar query
+.Op Fl g Ar id
+.Sh DESCRIPTION
+The
+.Nm
+utility lets you download and search haxball maps.
+.Sh OPTIONS
+.Bl -tag -width indent
+.It Fl d
 use with the search flag to download all the maps
-.TP
-\fB\-h\fR, \fB\-\-help\fR
-show the help message and exit
-.TP
-\fB\-j\fR, \fB\-\-json\fR
+.It Fl h
+show usage
+.It Fl j
 use with the search flag to set the output format to json
-.TP
-\fB\-s\fR, \fB\-\-search\fR
+.It Fl s
 search in the map database and show the results in readable format
-.TP
-\fB\-g\fR, \fB\-\-get\fR
+.It Fl g
 download a specific map by id
-.SH EXAMPLES
-.TP
-\fBsearch for futsal maps\fR
+.El
+.Sh EXAMPLES
+.Bl -tag -width indent
+.It search for futsal maps
 haxmaps -s futsal
-.TP
-\fBdownload a map by id\fR
+.It download a map by id
 haxmaps -g 938
-.SH EXIT STATUS
-.TP
-\fB0\fR
-the program terminated successfully
-.TP
-\fB1\fR
-an error occurred
-.SH AUTHOR
-Written by alpheratz0.
-.SH COPYRIGHT
-Copyright \(co 2022 <alpheratz99@protonmail.com>
-.br
-License GPLv2.0: GNU GPL version 2.0 <https://gnu.org/licenses/old-licenses/gpl-2.0.en.html>.
-.br
-This is free software: you are free to change and redistribute it.
-.br
-There is NO WARRANTY, to the extent permitted by law.
-.SH BUGS
+.El
+.Sh SEE ALSO
+.Xr haxip 1
+.Sh AUTHORS
+.An alpheratz0 Aq Mt alpheratz99@protonmail.com
+.Sh BUGS
 https://github.com/alpheratz0/haxmaps/issues
