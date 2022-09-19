@@ -1,8 +1,5 @@
-]|~ haxmaps ~|[
-
-Download and search haxball maps from https://www.haxmaps.com.
-
-]|~ license ~|[
+haxmaps is a utility that let's you download haxball maps.
+For more information about it's usage check `man haxmaps`.
 
 This program is free software; you can redistribute it
 and/or modify it under the terms of the GNU General Public License
