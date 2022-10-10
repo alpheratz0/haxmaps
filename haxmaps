@@ -7,13 +7,12 @@ opt_json=false
 query=''
 getid=''
 
-main() {
+main()
+{
 	parsed_args=$(getopt -o s:g:djh -n 'haxmaps' -- "$@")
 	getopt_exit_code=$?
 
-	if [ $getopt_exit_code -ne 0  ] ; then
-		exit 1
-	fi
+	[ $getopt_exit_code -ne 0 ] && exit 1
 
 	eval set -- "$parsed_args"
 
@@ -29,11 +28,11 @@ main() {
 		esac
 	done
 
-	if ! $opt_search && ! $opt_get ; then
+	if ! $opt_search && ! $opt_get; then
 		usage
 	fi
 
-	if $opt_get ; then
+	if $opt_get; then
 		[ "$getid" -eq "$getid" ] 2>/dev/null ||
 			die 'invalid id'
 
@@ -41,14 +40,14 @@ main() {
 		exit 0
 	fi
 
-	if $opt_search ; then
-		if $opt_download ; then
+	if $opt_search; then
+		if $opt_download; then
 			search "$query" | jq --raw-output '.results[].id' | (
 				while read -r id; do
 					download "$id" > "$id.hbs"
 				done
 			)
-		elif $opt_json ; then
+		elif $opt_json; then
 			search "$query"
 		else
 			printf "%s\t\t%s\n" "ID" "Map name"
@@ -60,24 +59,28 @@ main() {
 	usage
 }
 
-die() {
+die()
+{
 	printf "haxmaps: %s\n" "$@" >&2
 	exit 1
 }
 
-usage() {
+usage()
+{
 	echo usage: haxmaps [-dhj] [-s query] [-g id]
 	exit 0
 }
 
-download() {
+download()
+{
 	curl -s "https://haxmaps.com/dl/$1"
 }
 
-search() {
+search()
+{
 	results=$(curl -s --data-urlencode "queryString=$1" https://haxmaps.com/hb/rpc | grep -Po '<li.*?</li>')
 
-	if [ "${#results}" -lt 5 ] ; then
+	if [ "${#results}" -lt 5 ]; then
 		echo '{ "results": [] }'
 		exit 0
 	fi
